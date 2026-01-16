@@ -5,7 +5,7 @@ A comprehensive guide to learning Java multithreading from absolute basics to ad
 ## Prerequisites
 
 - Java 11 or higher
-- Maven 3.6+
+- Gradle 8.0+ (wrapper included)
 - Basic understanding of Java programming
 
 ## Project Structure
@@ -123,21 +123,48 @@ src/main/java/com/learning/multithreading/
 ### Build the Project
 
 ```bash
-mvn clean compile
+./gradlew build
+```
+
+Or just compile without running tests:
+
+```bash
+./gradlew compileJava
 ```
 
 ### Run Examples
 
-Each example can be run as a standalone Java application:
+#### Option 1: Using Convenience Tasks
+
+List all available example tasks:
+```bash
+./gradlew listExamples
+```
+
+Run specific examples:
+```bash
+./gradlew runThreadCreation       # Thread creation basics
+./gradlew runThreadStates         # Thread states
+./gradlew runSynchronization      # Synchronization and race conditions
+./gradlew runProducerConsumer     # Producer-Consumer pattern
+```
+
+#### Option 2: Run Any Class Directly
 
 ```bash
-mvn exec:java -Dexec.mainClass="com.learning.multithreading.basics.ThreadCreationExample"
+./gradlew runExample -PmainClass=com.learning.multithreading.basics.ThreadCreationExample
+```
+
+#### Option 3: Using the Application Plugin
+
+```bash
+./gradlew run  # Runs the default main class
 ```
 
 ### Run Tests
 
 ```bash
-mvn test
+./gradlew test
 ```
 
 ## Learning Tips

@@ -1,0 +1,88 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'com.learning'
+version = '1.0-SNAPSHOT'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // JUnit for testing examples
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+// Configure application plugin for running examples
+application {
+    // Default main class (can be overridden with --main-class option)
+    mainClass = 'com.learning.multithreading.basics.ThreadCreationExample'
+}
+
+// Task to run any main class easily
+task runExample(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+
+    // Usage: gradle runExample -PmainClass=com.learning.multithreading.basics.ThreadCreationExample
+    if (project.hasProperty('mainClass')) {
+        mainClass = project.property('mainClass')
+    } else {
+        mainClass = 'com.learning.multithreading.basics.ThreadCreationExample'
+    }
+}
+
+// Convenience tasks for running specific examples
+task runThreadCreation(type: JavaExec) {
+    group = 'examples'
+    description = 'Run Thread Creation Example'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.learning.multithreading.basics.ThreadCreationExample'
+}
+
+task runThreadStates(type: JavaExec) {
+    group = 'examples'
+    description = 'Run Thread States Example'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.learning.multithreading.basics.ThreadStatesExample'
+}
+
+task runSynchronization(type: JavaExec) {
+    group = 'examples'
+    description = 'Run Synchronization Example'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.learning.multithreading.basics.SynchronizationExample'
+}
+
+task runProducerConsumer(type: JavaExec) {
+    group = 'examples'
+    description = 'Run Producer-Consumer Example'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.learning.multithreading.intermediate.ProducerConsumerExample'
+}
+
+// Task to list all available example tasks
+task listExamples {
+    group = 'examples'
+    description = 'List all available example tasks'
+    doLast {
+        println '\n=== Available Example Tasks ==='
+        tasks.matching { it.group == 'examples' }.each {
+            println "  gradle ${it.name} - ${it.description}"
+        }
+        println '\n=== Run Any Class ==='
+        println '  gradle runExample -PmainClass=com.learning.multithreading.basics.ThreadCreationExample'
+        println ''
+    }
+}
